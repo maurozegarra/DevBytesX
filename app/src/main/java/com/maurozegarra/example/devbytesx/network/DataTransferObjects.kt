@@ -1,5 +1,6 @@
 package com.maurozegarra.example.devbytesx.network
 
+import com.maurozegarra.example.devbytesx.database.DatabaseVideo
 import com.maurozegarra.example.devbytesx.domain.Video
 import com.squareup.moshi.JsonClass
 
@@ -31,7 +32,8 @@ data class NetworkVideo(
     val url: String,
     val updated: String,
     val thumbnail: String,
-    val closedCaptions: String?)
+    val closedCaptions: String?
+)
 
 /**
  * Convert Network results to database objects
@@ -43,6 +45,19 @@ fun NetworkVideoContainer.asDomainModel(): List<Video> {
             description = it.description,
             url = it.url,
             updated = it.updated,
-            thumbnail = it.thumbnail)
+            thumbnail = it.thumbnail
+        )
     }
+}
+
+fun NetworkVideoContainer.asDatabaseModel(): Array<DatabaseVideo> {
+    return videos.map {
+        DatabaseVideo(
+            title = it.title,
+            description = it.description,
+            url = it.url,
+            updated = it.updated,
+            thumbnail = it.thumbnail
+        )
+    }.toTypedArray()
 }
